@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\CĐ CNPM\\Project\\GatherTown_ASP_net_core_mvc\\PixelTown\\PixelTown\\PixelTown.csproj": {}
+    "F:\\CĐ CNPM\\Project\\Gather Town Backend ASP\\Pixel-Town-Backend-ASP\\PixelTown\\PixelTown\\PixelTown.csproj": {}
   },
   "projects": {
-    "F:\\CĐ CNPM\\Project\\GatherTown_ASP_net_core_mvc\\PixelTown\\PixelTown\\PixelTown.csproj": {
+    "F:\\CĐ CNPM\\Project\\Gather Town Backend ASP\\Pixel-Town-Backend-ASP\\PixelTown\\PixelTown\\PixelTown.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\CĐ CNPM\\Project\\GatherTown_ASP_net_core_mvc\\PixelTown\\PixelTown\\PixelTown.csproj",
+        "projectUniqueName": "F:\\CĐ CNPM\\Project\\Gather Town Backend ASP\\Pixel-Town-Backend-ASP\\PixelTown\\PixelTown\\PixelTown.csproj",
         "projectName": "PixelTown",
-        "projectPath": "F:\\CĐ CNPM\\Project\\GatherTown_ASP_net_core_mvc\\PixelTown\\PixelTown\\PixelTown.csproj",
+        "projectPath": "F:\\CĐ CNPM\\Project\\Gather Town Backend ASP\\Pixel-Town-Backend-ASP\\PixelTown\\PixelTown\\PixelTown.csproj",
         "packagesPath": "C:\\Users\\NguyenHuy\\.nuget\\packages\\",
-        "outputPath": "F:\\CĐ CNPM\\Project\\GatherTown_ASP_net_core_mvc\\PixelTown\\PixelTown\\obj\\",
+        "outputPath": "F:\\CĐ CNPM\\Project\\Gather Town Backend ASP\\Pixel-Town-Backend-ASP\\PixelTown\\PixelTown\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\NguyenHuy\\AppData\\Roaming\\NuGet\\NuGet.Config",

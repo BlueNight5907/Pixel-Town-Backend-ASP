@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MpMh7rUwxdEq2S5caAOJ2VdEyTcZWinusXdMaoOvBTBlpP/IXVUx8S6T50Fddb4xRoc5sE4+Y42bkoiAGMhUIQ==",
+  "dgSpecHash": "sdV3r241YsZT7qpoT7DrlHnBMARp66YIh0sXHavpUC/59RvDi0hnlZUTQE5k5+MZA4uBLPPkMGlg3me/IuJc+A==",
   "success": true,
-  "projectFilePath": "F:\\CĐ CNPM\\Project\\GatherTown_ASP_net_core_mvc\\PixelTown\\PixelTown\\PixelTown.csproj",
+  "projectFilePath": "F:\\CĐ CNPM\\Project\\Gather Town Backend ASP\\Pixel-Town-Backend-ASP\\PixelTown\\PixelTown\\PixelTown.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\NguyenHuy\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\NguyenHuy\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.21\\microsoft.aspnetcore.authentication.jwtbearer.3.1.21.nupkg.sha512",

@@ -41,13 +41,14 @@ namespace PixelTown.Controllers
         [Route("api/room/people/{roomId}")]
         public ActionResult<IEnumerable<Account>> UserInRoom(string roomId)
         {
+            Console.WriteLine(roomId);
             var result = RoomRes.userInRoom(roomId);
             if (result == null)
             {
                 return BadRequest(new JsonResult(result));
             } else
             {
-                return Ok(result);
+                return Ok(new JsonResult(result));
             }
         }
 
@@ -64,9 +65,6 @@ namespace PixelTown.Controllers
             } else if (roomName == "" || roomName == null)
             {
                 message = "Please enter room name!";
-            } else if (roomPass == "" || roomPass == null)
-            {
-                message = "Please enter room password";
             } else if (quantity <= 0)
             {
                 message = "The number of people cannot be less than or equal to 0!";
@@ -109,14 +107,24 @@ namespace PixelTown.Controllers
                 if (result)
                 {
                     Room room = new Room();
-                    List<UserJoinRoom> userJoinRoom = new List<UserJoinRoom>();
+                    var userJoinRoom = new List<object>();
                     using (var context = new PixelTownContext())
                     {
                         room = context.Room.Where(s => s.Id.Equals(roomId)).SingleOrDefault();
                     }
                     using (var context = new PixelTownContext())
                     {
-                        userJoinRoom = context.UserJoinRoom.Where(s => s.RoomId.Equals(roomId)).ToList();
+                        userJoinRoom = (from user_in_room in context.UserJoinRoom join user in context.Account 
+                                        on user_in_room.UserId equals user.Id
+                                       where user_in_room.RoomId == roomId
+                                        select new { 
+                                            name = user.Name,
+                                            userId = user.Id,
+                                            avatar = user.Avatar,
+                                            state = user_in_room.State,
+                                            time = user_in_room.Time,
+                                            characterId = user_in_room.CharacterId
+                                        }).ToList<object>();
                     }
                     var finalResult = new { room = room, userInRoom = userJoinRoom };
                     return Ok(new JsonResult(finalResult));

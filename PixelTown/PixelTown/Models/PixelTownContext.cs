@@ -104,8 +104,6 @@ namespace PixelTown.Models
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Time).HasColumnType("date");
-
                 entity.Property(e => e.UserId)
                     .HasColumnName("UserID")
                     .HasMaxLength(200)
@@ -161,8 +159,6 @@ namespace PixelTown.Models
                     .HasColumnName("RoomID")
                     .HasMaxLength(200)
                     .IsUnicode(false);
-
-                entity.Property(e => e.Time).HasColumnType("datetime");
 
                 entity.Property(e => e.UserId)
                     .HasColumnName("UserID")

@@ -30,6 +30,11 @@ namespace PixelTown.Hubs
             {
                 if(room.Users.GetUser(Context.ConnectionId) != null)
                 {
+                    //Get user Id from token
+                    var identity = (ClaimsIdentity)Context.User.Identity;
+                    var userId = identity.FindFirst(ClaimTypes.Name).Value;
+                    RoomRes.setUserOffline(room.RoomId,userId);
+
                     var user = room.Users.GetUser(Context.ConnectionId);
                     Clients.Group(room.RoomId).SendAsync("UserOut",new {signalrID = user.signalrID });
                     room.Users.Remove(Context.ConnectionId);
@@ -198,6 +203,40 @@ namespace PixelTown.Hubs
             }
 
         }
+
+        public async Task LongMessage(string roomId, string message)
+        {
+            Console.WriteLine(roomId + "  " + message);
+            RoomInfo roomInfo = roomManager.GetRoomInfor(roomId);
+            //Get user Id from token
+            var identity = (ClaimsIdentity)Context.User.Identity;
+            var userId = identity.FindFirst(ClaimTypes.Name).Value;
+            var user = AccountRes.getById(userId);
+            if (roomInfo != null && userId != null && user != null)
+            {
+               if (MessageRes.AddMessage(roomId, userId, message))
+                {
+                    await Clients.Group(roomId).SendAsync("UserSendLongMessage", new
+                    {
+                        userId = user.Id,
+                        name = user.Name,
+                        avatar = user.Avatar,
+                        message = message,
+                        time = DateTimeOffset.Now.ToUnixTimeMilliseconds()
+                    });
+                }
+                else
+                {
+                    await Clients.Caller.SendAsync("error", "Something has been error");
+                }
+            }
+            else
+            {
+                await Clients.Caller.SendAsync("error", "This room does not exist!!!");
+            }
+
+        }
+
 
         public async Task GetAllRoom()
         {

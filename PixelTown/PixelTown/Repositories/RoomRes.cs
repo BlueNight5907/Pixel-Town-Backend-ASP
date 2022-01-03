@@ -46,17 +46,19 @@ namespace PixelTown.Repositories
                     return false;
                 } else
                 {
+                    
                     if (joinRoom.Count < room.Quantity)
                     {
-                        var userAlreadyRoom = context.UserJoinRoom.Where(s => s.UserId.Equals(userId)).SingleOrDefault();
+                        var userAlreadyRoom = context.UserJoinRoom.Where(s => s.UserId.Equals(userId) && s.RoomId.Equals(roomId)).SingleOrDefault();
                         if (userAlreadyRoom == null)
                         {
+                            Console.WriteLine(roomId + "  " + userId + " " + characterId);
                             UserJoinRoom user = new UserJoinRoom();
                             user.Time = time;
                             user.RoomId = roomId;
                             user.UserId = userId;
                             user.CharacterId = characterId;
-                            user.State = "Offline";
+                            user.State = "Online";
                             context.UserJoinRoom.Add(user);
                             var result = context.SaveChanges();
                             if (result > 0)
@@ -69,8 +71,8 @@ namespace PixelTown.Repositories
                             }
                         } else
                         {
-                            var userInRoom = context.UserJoinRoom.Where(s => s.UserId.Equals(userId)).SingleOrDefault();
-                            userInRoom.CharacterId = characterId;
+                            userAlreadyRoom.CharacterId = characterId;
+                            userAlreadyRoom.State = "Online";
                             var result = context.SaveChanges();
                             return true;
                         }
@@ -82,30 +84,61 @@ namespace PixelTown.Repositories
             }
         }
 
-        public static List<Room> worldRoom()
+        public static object worldRoom()
         {
             using (var context = new PixelTownContext())
             {
-                var room = context.Room;
-                return room.ToList();
+                var allRoom = from room in context.Room select new { 
+                    room.Id,
+                    room.MapId,
+                    room.UserId,
+                    room.RoomName,
+                    room.RoomPass,
+                    room.Quantity,
+                    room.Description,
+                    UserJoinRoom = context.UserJoinRoom.Where(s => s.RoomId == room.Id).ToList(),
+                };
+                return allRoom.ToList();
             }
         }
 
         public static object myRoom(string userId)
         {
-            List<Room> result_create = new List<Room>();
-            List<Room> result_join = new List<Room>();
+            var result_create = new List<object>();
+            var result_join = new List<object>();
             using (var context = new PixelTownContext())
             {
-                result_create = context.Room.Where(s => s.UserId.Equals(userId)).ToList();
+                result_create = (from room in context.Room
+                                 where room.UserId == userId
+                                select new
+                                {
+                                    room.Id,
+                                    room.MapId,
+                                    room.UserId,
+                                    room.RoomName,
+                                    room.RoomPass,
+                                    room.Quantity,
+                                    room.Description,
+                                    UserJoinRoom = context.UserJoinRoom.Where(s => s.RoomId == room.Id).ToList(),
+                                }).ToList<object>();
             }
             using (var context = new PixelTownContext())
             {
                 //result_join = context.UserJoinRoom.Where(s => s.UserId.Equals(userId)).ToList();
                 result_join = (from c in context.UserJoinRoom
-                              join a in context.Room
-                              on c.UserId equals a.UserId where c.RoomId == a.Id
-                              select a).ToList();
+                              join room in context.Room
+                              on c.RoomId equals room.Id where c.UserId == userId
+                                select new
+                                {
+                                    room.Id,
+                                    room.MapId,
+                                    room.UserId,
+                                    room.RoomName,
+                                    room.RoomPass,
+                                    room.Quantity,
+                                    room.Description,
+                                    UserJoinRoom = context.UserJoinRoom.Where(s => s.RoomId == room.Id).ToList(),
+                                }).ToList<object>();
             }
             var result = new { create = result_create, join = result_join };
             return result;
@@ -115,13 +148,18 @@ namespace PixelTown.Repositories
         {
             using (var context = new PixelTownContext())
             {
-                var result = (from c in context.UserJoinRoom
-                              join a in context.Account
-                              on c.RoomId equals roomId where c.UserId == a.Id
-                              select new { 
-                                  user = a,
-                                  state = c.State
-                              }).ToList();
+                var result = (from user_in_room in context.UserJoinRoom
+                              join user in context.Account
+                              on user_in_room.UserId equals user.Id where user_in_room.RoomId == roomId
+                              select new
+                              {
+                                  name = user.Name,
+                                  userId = user.Id,
+                                  avatar = user.Avatar,
+                                  state = user_in_room.State,
+                                  time = user_in_room.Time,
+                                  characterId = user_in_room.CharacterId
+                              }).ToList<object>();
                 return result;
             }
         }
@@ -166,6 +204,35 @@ namespace PixelTown.Repositories
                 } else
                 {
                     return false;
+                }
+            }
+        }
+
+        public static bool checkUserInRoom(string roomId, string userId)
+        {
+            using (var context = new PixelTownContext())
+            {
+                var room = context.UserJoinRoom.Where(s => s.RoomId.Equals(roomId) && s.UserId.Equals(userId)).SingleOrDefault();
+                if (room != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static void setUserOffline(string roomId, string userId)
+        {
+            using (var context = new PixelTownContext())
+            {
+                var userInRoom = context.UserJoinRoom.Where(s => s.RoomId.Equals(roomId) && s.UserId.Equals(userId)).SingleOrDefault();
+                if (userInRoom != null)
+                {
+                    userInRoom.State = "Offline";
+                    context.SaveChanges();
                 }
             }
         }

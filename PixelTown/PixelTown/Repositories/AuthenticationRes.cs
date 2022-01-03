@@ -32,18 +32,23 @@ namespace PixelTown.Repositories
             }
         }
 
-        public static bool Register(string name, string username, string password, DateTime birthday, string address)
+        public static bool Register(string name, string email, string password, DateTime birthday, string address)
         {
             Account acc = new Account();
             acc.Id = Guid.NewGuid().ToString("N");
             acc.Name = name;
-            acc.Email = username;
+            acc.Email = email;
             acc.Password = BCrypt.Net.BCrypt.HashPassword(password);
             acc.Birthday = birthday;
             acc.Address = address;
             acc.Type = "User";
             acc.Active = true;
             using (var context = new PixelTownContext()) {
+                var account = context.Account.Where(s => s.Email.Equals(email)).SingleOrDefault();
+                if (account != null)
+                {
+                    return false;
+                }
                 context.Account.Add(acc);
                 var result = context.SaveChanges();
                 if(result > 0)

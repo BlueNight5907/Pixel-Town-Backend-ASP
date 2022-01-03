@@ -80,15 +80,15 @@ namespace PixelTown.Controllers
 
         [HttpPost]
         [Route("api/register")]
-        public IActionResult Register([FromForm] string name, string username, string password, string birthday, string address)
+        public IActionResult Register([FromForm] string name, string email, string password, string birthday, string address)
         {
             var message = "";
             if(name == "" || name == null)
             {
                 message = "Please enter full name!";
-            } else if (username == "" || username == null)
+            } else if (email == "" || email == null)
             {
-                message = "Please enter username!";
+                message = "Please enter email!";
             } else if (password == "" || password == null)
             {
                 message = "Please enter password!";
@@ -100,7 +100,7 @@ namespace PixelTown.Controllers
             if (message == "")
             {
                 DateTime date = DateTime.ParseExact(birthday, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                var account = AuthenticationRes.Register(name, username, password, date, address);
+                var account = AuthenticationRes.Register(name, email, password, date, address);
 
                 if (account)
                 {
