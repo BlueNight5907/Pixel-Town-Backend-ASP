@@ -12,6 +12,7 @@ namespace PixelTown.Models
         public Account()
         {
             Access = new HashSet<Access>();
+            FileMessage = new HashSet<FileMessage>();
             GoogleAuth = new HashSet<GoogleAuth>();
             Message = new HashSet<Message>();
             Room = new HashSet<Room>();
@@ -31,6 +32,7 @@ namespace PixelTown.Models
         public string SignalrId { get; set; }
 
         public virtual ICollection<Access> Access { get; set; }
+        public virtual ICollection<FileMessage> FileMessage { get; set; }
         public virtual ICollection<GoogleAuth> GoogleAuth { get; set; }
         public virtual ICollection<Message> Message { get; set; }
         public virtual ICollection<Room> Room { get; set; }

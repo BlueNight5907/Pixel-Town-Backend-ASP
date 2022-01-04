@@ -9,7 +9,7 @@ namespace PixelTown.Models
 {
     public partial class FileMessage
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string UserId { get; set; }
         public string RoomId { get; set; }
         public string UrlFile { get; set; }

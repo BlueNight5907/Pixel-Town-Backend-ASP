@@ -45,7 +45,10 @@ namespace PixelTown.Repositories
                 acc.Name = name;
                 acc.Birthday = birthDay;
                 acc.Address = address;
-                acc.Avatar = avatar;
+                if(avatar != null)
+                {
+                    acc.Avatar = avatar;
+                }
                 var result = context.SaveChanges();
                 if (result > 0)
                 {

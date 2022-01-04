@@ -11,6 +11,7 @@ namespace PixelTown.Models
     {
         public Room()
         {
+            FileMessage = new HashSet<FileMessage>();
             Message = new HashSet<Message>();
             UserAccessRoom = new HashSet<UserAccessRoom>();
             UserJoinRoom = new HashSet<UserJoinRoom>();
@@ -26,6 +27,7 @@ namespace PixelTown.Models
 
         public virtual Map Map { get; set; }
         public virtual Account User { get; set; }
+        public virtual ICollection<FileMessage> FileMessage { get; set; }
         public virtual ICollection<Message> Message { get; set; }
         public virtual ICollection<UserAccessRoom> UserAccessRoom { get; set; }
         public virtual ICollection<UserJoinRoom> UserJoinRoom { get; set; }

@@ -42,6 +42,7 @@ namespace PixelTown.Repositories
             acc.Birthday = birthday;
             acc.Address = address;
             acc.Type = "User";
+            acc.Avatar = "/public/users/u11.jfif";
             acc.Active = true;
             using (var context = new PixelTownContext()) {
                 var account = context.Account.Where(s => s.Email.Equals(email)).SingleOrDefault();

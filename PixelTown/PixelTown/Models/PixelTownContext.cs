@@ -92,12 +92,7 @@ namespace PixelTown.Models
 
             modelBuilder.Entity<FileMessage>(entity =>
             {
-                entity.HasNoKey();
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.RoomId)
                     .HasColumnName("RoomID")
@@ -110,12 +105,12 @@ namespace PixelTown.Models
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Room)
-                    .WithMany()
+                    .WithMany(p => p.FileMessage)
                     .HasForeignKey(d => d.RoomId)
                     .HasConstraintName("FK_FileMessage_Room");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.FileMessage)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_FileMessage_Account");
             });

@@ -89,7 +89,7 @@ namespace PixelTown.Controllers
             }
             else
             {
-                return Ok(new { id = account.Id, name = account.Name, email = account.Email,  birthday = account.Birthday, address = account.Address, avatar = account.Avatar });
+                return Ok(new { id = account.Id, name = account.Name, email = account.Email,  birthday = account.Birthday, address = account.Address, avatar = account.Avatar, type = account.Type, active = account.Active });
             }
         }
 
